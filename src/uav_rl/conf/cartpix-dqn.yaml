@@ -1,0 +1,32 @@
+algo_name: DQN
+ckpt: null
+environment:
+  env: CartPolePixels
+rl_module:
+  model_config_dict:
+    uses_new_env_runners: True
+    vf_share_layers: True
+#    conv_filters: [ [ 16, 4, 2 ], [ 32, 4, 2 ], [ 64, 4, 2 ], [ 128, 4, 2 ] ]
+#    conv_activation: "relu"
+#    post_fcnet_hiddens: [ 256 ]
+training:
+  lr: 3.0e-4
+  gamma: 0.99
+  train_batch_size: 128
+  # Algo Specific
+  target_network_update_freq: 400
+  num_steps_sampled_before_learning_starts: 10_000
+  dueling: True
+  double_q: True
+  n_step: 1
+  epsilon: [ [ 0, 0.6 ], [ 2_000, 0.05 ] ]
+  td_error_loss_fn: mse
+  replay_buffer_config:
+    type: PrioritizedEpisodeReplayBuffer
+    capacity: 100_000
+    alpha: 0.9
+    beta: 0.6
+stop:
+  env_runners/episode_return_mean: 70.0
+#  training_iteration: 100
+#  num_env_steps_sampled_lifetime: 5_000_000

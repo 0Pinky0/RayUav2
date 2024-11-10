@@ -1,0 +1,38 @@
+algo_name: DQN
+ckpt: null
+environment:
+  env: UavEnvVec
+  env_config:
+    dimensions: !!python/tuple [ 1000, 1000 ]
+    fixed_obstacles: 10
+    dynamic_obstacles: 0
+    occur_obstacles: 0
+    occur_number_max: 3
+    return_raster: True
+    prevent_stiff: False
+    use_lidar: True
+    draw_lidar: False
+    lidar_range: 250.0
+    lidar_rays: 42
+    field_of_view: 210.0
+    center_obstacles: False
+training:
+  lr: 1.0e-4
+  gamma: 0.99
+  train_batch_size: 512
+  target_network_update_freq: 40
+  num_steps_sampled_before_learning_starts: 10_000
+  dueling: True
+  double_q: True
+  n_step: 1
+  epsilon: [ [ 0, 0.6 ], [ 75, 0.05 ] ]
+  td_error_loss_fn: mse
+  replay_buffer_config:
+    type: PrioritizedEpisodeReplayBuffer
+    capacity: 500_000
+    alpha: 0.5
+    beta: 0.5
+  model:
+    uses_new_env_runners: True
+stop:
+  env_runners/episode_return_mean: 30.0

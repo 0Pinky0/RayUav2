@@ -1,0 +1,43 @@
+algo_name: SAC
+ckpt: null
+environment:
+  env: UavEnvVec
+  env_config:
+    dimensions: !!python/tuple [ 1000, 1000 ]
+    fixed_obstacles: 10
+    dynamic_obstacles: 0
+    occur_obstacles: 0
+    occur_number_max: 3
+    return_raster: True
+    prevent_stiff: False
+    use_lidar: True
+    draw_lidar: False
+    lidar_range: 250.0
+    lidar_rays: 42
+    field_of_view: 210.0
+    center_obstacles: False
+training:
+  lr: null
+  gamma: 0.99
+  train_batch_size: 512
+  tau: 0.003
+  num_steps_sampled_before_learning_starts: 10_000
+  actor_lr: 1.0e-5
+  critic_lr: 3.0e-4
+  alpha_lr: 3.0e-4
+#  dueling: True
+#  double_q: True
+#  n_step: 1
+#  epsilon: [ [ 0, 0.6 ], [ 75, 0.05 ] ]
+#  td_error_loss_fn: mse
+  replay_buffer_config:
+    type: MultiAgentPrioritizedReplayBuffer
+    capacity: 500_000
+    prioritized_replay: True
+    prioritized_replay_alpha: 0.9
+    prioritized_replay_beta: 0.6
+    prioritized_replay_eps: 1.0e-6
+#  model:
+#    uses_new_env_runners: True
+stop:
+  env_runners/episode_return_mean: 30.0

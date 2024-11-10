@@ -1,0 +1,30 @@
+algo_name: SAC
+ckpt: null
+environment:
+  env: CartPolePixels
+training:
+  model:
+    uses_new_env_runners: True
+  lr: null
+  gamma: 0.99
+  train_batch_size: 128
+  # Algo Specific
+  actor_lr: 1.0e-5
+  critic_lr: 3.0e-4
+  alpha_lr: 3.0e-4
+  target_network_update_freq: 400
+  num_steps_sampled_before_learning_starts: 10_000
+#  dueling: True
+#  double_q: True
+#  n_step: 1
+#  epsilon: [ [ 0, 0.6 ], [ 100_000, 0.01 ] ]
+#  td_error_loss_fn: mse
+  replay_buffer_config:
+    type: PrioritizedEpisodeReplayBuffer
+    capacity: 60_000
+    alpha: 0.9
+    beta: 0.6
+stop:
+  env_runners/episode_return_mean: 70.0
+#  training_iteration: 100
+#  num_env_steps_sampled_lifetime: 5_000_000

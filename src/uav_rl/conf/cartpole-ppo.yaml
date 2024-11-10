@@ -1,0 +1,21 @@
+algo_name: PPO
+ckpt: null
+environment:
+  env: CartPole-v1
+training:
+  model:
+    uses_new_env_runners: True
+  lr: 3.0e-4
+  gamma: 0.99
+  train_batch_size: 2048
+  # Algo Specific
+  sgd_minibatch_size: 128
+  lambda_: 0.95
+  clip_param: 0.1
+  vf_loss_coeff: 0.5
+  entropy_coeff: 0.003
+  num_sgd_iter: 8
+stop:
+  env_runners/episode_return_mean: 400.0
+#  training_iteration: 100
+#  num_env_steps_sampled_lifetime: 5_000_000
